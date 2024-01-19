@@ -4,8 +4,7 @@ import productsModel from "../models/products.models.js"
 import { ProductService } from "../services/products.mongo.dao.js"
 
 const router = Router()
-
-const productService = new ProductService()
+const controller = new ProductService()
 
 router.get('/', async (req, res) => {
   try{
@@ -56,7 +55,7 @@ router.get('/', async (req, res) => {
 
 router.get('/all', async (req, res) => {
     try {
-        const products = await productService.getAllProdutcs()
+        const products = await controller.getAllProdutcs()
         res.status(200).send({ status: "OK", data: products})
       } catch(error){
         res.status(400).send({ status: "ERR", data: error.message})
@@ -66,7 +65,7 @@ router.get('/all', async (req, res) => {
 router.get('/:pid', async (req, res) => {
   try {
       const pId = req.params.pid
-      const product = await productService.getProduct(pId)
+      const product = await controller.getProduct(pId)
 
       res.status(200).send({ status:"OK", data: product})
     } catch (err) {
@@ -78,7 +77,7 @@ router.post('/', async (req, res) => {
     try {
 
         const newProduct = req.body
-        const productAdded = await productService.addProduct(newProduct)
+        const productAdded = await controller.addProduct(newProduct)
         res.status(200).send({ status: 'OK', data: `Product added with ID: ${productAdded._id}`})
 
         } catch (err){
@@ -91,7 +90,7 @@ router.put('/:pid', async (req, res) => {
         const pId = req.params.pid
         const productUpdate = req.body
 
-        await productService.updateProduct(pId, productUpdate)
+        await controller.updateProduct(pId, productUpdate)
 
         res.status(200).send({ status: 'OK', data: `product with ID: ${pId} has updated`})
       } catch (error) {
@@ -103,7 +102,7 @@ router.delete('/:pid', async (req, res) => {
     try{
         const pId = req.params.pid
 
-        await productService.deleteProduct(pId)
+        await controller.deleteProduct(pId)
 
         res.status(200).send({ status: 'OK', data: `Product with ID: ${pId} has deleted`})
     } catch(err){
