@@ -11,14 +11,6 @@ initPassport()
 
 const router = Router()
 
-const authorization = role => {
-    return async (req, res, next) => {
-        if (!req.session.user ) return res.status(401).send({ status: 'ERROR', data: 'Not authenticade'})
-        if (req.session.user.role !== role) return res.status(403).send({ status: 'ERROR', data: 'Unauthorized'})
-        next()
-    }
-}
-
 const handlePolicies = policies => {
     return async (req, res, next) => {
         if (!req.session.user) return res.status(401).send({ status: "ERROR", data: "User not athorized"})
